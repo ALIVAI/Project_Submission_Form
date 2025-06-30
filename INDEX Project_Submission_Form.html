@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Project Submission</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">Submit Your Project</h1>
+        <p class="text-sm text-gray-600 mb-6 text-center">
+            Fill out the form below. For actual GitHub submission, please follow the
+            <span class="font-semibold text-blue-600">manual Git instructions provided after submission</span>.
+        </p>
+
+        <form id="projectForm" class="space-y-4">
+            <!-- Project Name -->
+            <div>
+                <label for="projectName" class="block text-gray-700 text-sm font-medium mb-1">Project Name <span class="text-red-500">*</span></label>
+                <input type="text" id="projectName" name="projectName" placeholder="e.g., My Awesome Web App"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+            </div>
+
+            <!-- Project Description -->
+            <div>
+                <label for="projectDescription" class="block text-gray-700 text-sm font-medium mb-1">Project Description <span class="text-red-500">*</span></label>
+                <textarea id="projectDescription" name="projectDescription" rows="4" placeholder="Briefly describe your project's purpose and features."
+                          class="w-full px-4 py-2 border border-gray-300 rounded-md resize-y focus:outline-none focus:ring-2 focus:ring-blue-500" required></textarea>
+            </div>
+
+            <!-- GitHub Repository URL -->
+            <div>
+                <label for="githubUrl" class="block text-gray-700 text-sm font-medium mb-1">GitHub Repository URL (if existing)</label>
+                <input type="url" id="githubUrl" name="githubUrl" placeholder="e.g., https://github.com/yourusername/your-repo"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Live Demo URL (Optional) -->
+            <div>
+                <label for="demoUrl" class="block text-gray-700 text-sm font-medium mb-1">Live Demo URL (Optional)</label>
+                <input type="url" id="demoUrl" name="demoUrl" placeholder="e.g., https://yourproject.netlify.app"
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- File Upload (Illustrative - will not actually upload to GitHub) -->
+            <div>
+                <label for="projectFiles" class="block text-gray-700 text-sm font-medium mb-1">Project Files (For information only)</label>
+                <input type="file" id="projectFiles" name="projectFiles" multiple
+                       class="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <p class="text-xs text-gray-500 mt-1">
+                    * This form does not upload files directly to GitHub. You will push them manually.
+                </p>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                    class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out">
+                Submit Project Details
+            </button>
+        </form>
+
+        <!-- Submission Feedback Area -->
+        <div id="feedbackMessage" class="mt-6 p-4 bg-blue-100 text-blue-700 rounded-md border border-blue-200 hidden">
+            <h3 class="font-semibold text-lg mb-2">Submission Successful!</h3>
+            <p class="text-sm">
+                Thank you for submitting your project details. To upload your project files to GitHub, please follow these steps:
+            </p>
+            <ol class="list-decimal list-inside text-sm mt-2 space-y-1">
+                <li>Go to <a href="https://github.com/new" target="_blank" class="text-blue-700 underline hover:text-blue-800">GitHub.com/new</a> to create a new repository.</li>
+                <li>Follow GitHub's instructions to initialize your local project as a Git repository.</li>
+                <li>Add your files, commit them, and push them to your new GitHub repository.</li>
+                <li>Example Git commands:
+                    <pre class="bg-gray-200 p-2 rounded-md text-xs mt-1 overflow-auto">
+                    git init
+                    git add .
+                    git commit -m "Initial project commit"
+                    git branch -M main
+                    git remote add origin YOUR_GITHUB_REPO_URL
+                    git push -u origin main
+                    </pre>
+                </li>
+            </ol>
+            <button id="closeFeedback" class="mt-4 bg-blue-500 text-white py-1 px-3 rounded-md text-sm hover:bg-blue-600">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Get references to DOM elements
+        const projectForm = document.getElementById('projectForm');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        const closeFeedbackButton = document.getElementById('closeFeedback');
+
+        // Add event listener for form submission
+        projectForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission behavior (page reload)
+
+            // Collect form data
+            const projectName = document.getElementById('projectName').value;
+            const projectDescription = document.getElementById('projectDescription').value;
+            const githubUrl = document.getElementById('githubUrl').value;
+            const demoUrl = document.getElementById('demoUrl').value;
+            const projectFiles = document.getElementById('projectFiles').files; // This gets FileList object
+
+            // Log the collected data to the console for demonstration
+            console.log('--- Project Submission Details ---');
+            console.log('Project Name:', projectName);
+            console.log('Project Description:', projectDescription);
+            console.log('GitHub URL:', githubUrl || 'Not provided');
+            console.log('Live Demo URL:', demoUrl || 'Not provided');
+            console.log('Files Selected:', projectFiles.length > 0 ? Array.from(projectFiles).map(file => file.name).join(', ') : 'No files selected');
+            console.log('---------------------------------');
+
+            // Display the feedback message to the user
+            feedbackMessage.classList.remove('hidden');
+
+            // Optionally, clear the form after submission
+            projectForm.reset();
+        });
+
+        // Add event listener to close the feedback message
+        closeFeedbackButton.addEventListener('click', function() {
+            feedbackMessage.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
